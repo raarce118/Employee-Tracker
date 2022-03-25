@@ -1,13 +1,13 @@
-INSERT INTO employees (id, first_name, last_name, roles_id, manager_id)
+INSERT INTO employees(id, first_name, last_name, roles_id, manager_id)
 VALUES
-(1, 'John', 'Doe', '1', '1'),
-(2, 'Mike', 'Chan', '2', '2'),
-(3, 'Ashley', 'Rodriguez', '3', '3'),
-(4, 'Kevin', 'Tupik', '4', '4'),
-(5,'Kunal', 'Singh', '5', '5'),
-(6, 'Malia', 'Brown','1', '1'),
-(7, 'Sarah', 'Lourd','2', '2'),
-(8, 'Tom', 'Allen', '5', '5');
+(1, 'John', 'Doe', 1, 1),
+(2, 'Mike', 'Chan', 2, 2),
+(3, 'Ashley', 'Rodriguez', 3, 3),
+(4, 'Kevin', 'Tupik', 4, 4),
+(5,'Kunal', 'Singh', 5, 5),
+(6, 'Malia', 'Brown',1, 1),
+(7, 'Sarah', 'Lourd',2, 2),
+(8, 'Tom', 'Allen', 5, 5);
 
 INSERT INTO department(department_name, roles_id)
 VALUES

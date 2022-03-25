@@ -4,20 +4,26 @@ CREATE DATABASE boss;
 
 USE boss;
 
+DROP TABLE IF EXISTS department;
+DROP TABLE IF EXISTS roles;
+DROP TABLE IF EXISTS employees;
+
 CREATE TABLE employees (
     id INT NOT NULL AUTO_INCREMENT,
     first_name VARCHAR(30) NULL,
     last_name VARCHAR(30) NULL,
     roles_id INT NULL,
-    manager_id INT NULL,
-    INT PRIMARY KEY (id)
+     manager_id INTEGER,
+     CONSTRAINT fk_manager FOREIGN KEY (manager_id) REFERENCES employee(id) ON DELETE SET NULL,
+     CONSTRAINT fk_manager FOREIGN KEY (manager_id) REFERENCES employees(id) ON DELETE SET NULL
+    
 );
 
 CREATE TABLE department (
     id INT NOT NULL AUTO_INCREMENT,
     roles_id INT,
     department_name VARCHAR(30) NULL,
-    INT PRIMARY KEY (id)
+    PRIMARY KEY (id)
 );
 
 CREATE TABLE roles (
@@ -25,5 +31,5 @@ CREATE TABLE roles (
     title VARCHAR(30) NULL,
     salary DECIMAL NULL,
     department_id INT NULL,
-    INT PRIMARY KEY (id)
+    PRIMARY KEY (id)
 );
