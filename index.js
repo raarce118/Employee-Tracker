@@ -5,257 +5,6 @@ const chalk = require("chalk");
 const queries = require('./db/queries');
 const db = require('./db/connection');
 
-function viewDepartment() {
-  sql
-    .getDepartments()
-    .then(([rows]) => {
-      console.log("\n");
-      console.log(chalk.blue(cTable.getTable(rows)));
-    })
-    .then(() => {
-      viewOptions();
-    })
-    .catch((err) => console.log(chalk.bold.red("Error message: ", err)));
-}
-
-function viewAllEmployees() {
-  sql
-    .getAllEmployees()
-    .then(([rows]) => {
-      console.log("\n");
-      console.log(chalk.green(cTable.getTable(rows)));
-    })
-    .then(() => {
-      viewOptions();
-    })
-    .catch((err) => console.log(chalk.bold.red("Error message: ", err)));
-}
-
-function viewRoles() {
-  sql
-    .getRoles()
-    .then(([rows]) => {
-      console.log("\n");
-      console.log(chalk.yellow(cTable.getTable(rows)));
-    })
-    .then((result) => {
-      viewOptions();
-      return result;
-    })
-    .catch((err) => console.log(chalk.bold.red("Error message: ", err)));
-}
-
-async function addDepartment() {
-  const department = await inquirer.prompt([
-    {
-      name: "name",
-      message: "What is the name of the department?",
-      validate: (name) => {
-        if (name) {
-          return true;
-        } else {
-          console.log(chalk.red("You need to enter a Department"));
-          return false;
-        }
-      },
-    },
-  ]);
-
-  await sql.addDepartment(department);
-
-  viewOptions();
-};
-
-async function addRole() {
-  const role = await inquirer.prompt([
-    {
-      name: "title",
-      message: "Please enter the Job Title",
-      validate: (title) => {
-        if (title) {
-          return true;
-        } else {
-          console.log(chalk.red("You need to enter a Job Title"));
-          return false;
-        }
-      },
-    },
-    {
-      name: "salary",
-      message: "Please enter the salary?",
-      validate: (salary) => {
-        if (salary) {
-          return true;
-        } else {
-          console.log(chalk.red("You need to enter a Salary"));
-          return false;
-        }
-      },
-    },
-    {
-      name: "department_id",
-      message: "Please enter the department this role belong to (1 - 6)?",
-      validate: (department_id) => {
-        if (department_id) {
-          return true;
-        } else {
-          console.log(chalk.red("You need to enter a Department"));
-          return false;
-        }
-      },
-    },
-  ]);
-  await sql.addRole(role);
-
-  viewOptions();
-}
-
-async function addEmployee() {
-  const employee = await inquirer.prompt([
-    {
-      name: "first_name",
-      message: "Please enter a First Name",
-      validate: (first_name) => {
-        if (first_name) {
-          return true;
-        } else {
-          console.log(chalk.red("You need to enter a First Name"));
-          return false;
-        }
-      },
-    },
-    {
-      name: "last_name",
-      message: "Please enter Last Name",
-      validate: (last_name) => {
-        if (last_name) {
-          return true;
-        } else {
-          console.log(chalk.red("You need to enter a Last Name"));
-          return false;
-        }
-      },
-    },
-    {
-      name: "role_id",
-      message: "Please select a role from (1 - 4)",
-
-      validate: (role_id) => {
-        if (role_id) {
-          return true;
-        } else {
-          console.log(chalk.red("You need to enter a Role"));
-          return false;
-        }
-      },
-    },
-
-    {
-      name: "manager_id",
-      message: "Please select a manager for the employee. Type (1-5)?",
-
-      validate: (manager_id) => {
-        if (manager_id) {
-          return true;
-        } else {
-          console.log(chalk.red("You need to enter a Manager"));
-          return false;
-        }
-      },
-    },
-  ]);
-  await sql.addEmployee(employee);
-
-  viewOptions();
-}
-
-async function updateEmployeeRole() {
-  const employee = await inquirer.prompt([
-    {
-      name: "id",
-      message: "Please enter Employee ID",
-      validate: (id) => {
-        if (id) {
-          return true;
-        } else {
-          console.log(chalk.red("You need to enter an Employee ID"));
-          return false;
-        }
-      },
-    },
-    {
-      name: "role_id",
-      message: "Please select a role from (1 - 5)",
-
-      validate: (role_id) => {
-        if (role_id) {
-          return true;
-        } else {
-          console.log(chalk.red("You need to enter a Role"));
-          return false;
-        }
-      },
-    },
-  ]);
-  await sql.updateEmployeeRole(employee);
-
-  viewOptions();
-}
-
-// BONUS PART
-async function deleteEmployee() {
-  const employee = await inquirer.prompt([
-    {
-      name: "id",
-      message: "Please enter Employee ID you want to DELETE",
-      validate: (id) => {
-        if (id) {
-          return true;
-        } else {
-          console.log(chalk.red("You need to enter an Employee ID"));
-          return false;
-        }
-      },
-    },
-  ]);
-  await sql.deleteEmployee(employee);
-
-  viewOptions();
-}
-
-async function updateEmployeeManager() {
-  const employee = await inquirer.prompt([
-    {
-      name: "id",
-      message: "Please enter Employee ID to update",
-      validate: (id) => {
-        if (id) {
-          return true;
-        } else {
-          console.log(chalk.red("You need to enter an Employee ID"));
-          return false;
-        }
-      },
-    },
-    {
-      name: "manager_id",
-      message: "Please select a Manager from (1 - 5)",
-
-      validate: (manager_id) => {
-        if (manager_id) {
-          return true;
-        } else {
-          console.log(chalk.red("You need to enter a Role"));
-          return false;
-        }
-      },
-    },
-  ]);
-  await sql.updateEmployeeManager(employee);
-
-  viewOptions();
-}
-
 const viewOptions = () => {
   inquirer
     .prompt({
@@ -269,10 +18,6 @@ const viewOptions = () => {
         "Add a department",
         "Add a role",
         "Add an employee",
-        "Update an employee role",
-        //BONUS PART
-        "Remove an Employee",
-        "Update Employee Manager",
       ],
     })
     .then((data) => {
@@ -286,7 +31,7 @@ const viewOptions = () => {
           break;
         }
         case "View all employees": {
-          viewAllEmployees();
+          viewEmployees();
           break;
         }
         case "Add a department": {
@@ -301,18 +46,6 @@ const viewOptions = () => {
           addEmployee();
           break;
         }
-        case "Update an employee role": {
-          updateEmployeeRole();
-          break;
-        }
-        case "Remove an Employee": {
-          deleteEmployee();
-          break;
-        }
-        case "Update Employee Manager": {
-          updateEmployeeManager();
-          break;
-        }
         default:
           return console.log("No selection has been made");
       }
@@ -320,3 +53,215 @@ const viewOptions = () => {
     .catch((err) => console.log(chalk.bold.red("Error message: ", err)));
 };
 viewOptions();
+
+const viewDepartments = () => {
+  const sql = `SELECT * FROM departments`;
+  db.query(sql, (err, rows) => {
+    if (err) {
+      throw err;
+    }
+    console.log("\n");
+    console.table(rows);
+    return viewOptions();
+  });
+};
+
+const viewEmployees = () => {
+  const sql = `SELECT * FROM employees`;
+  db.query(sql, (err, rows) => {
+    if (err) {
+      throw err;
+    }
+    console.log("\n");
+    console.table(rows);
+    return viewOptions();
+  });
+};
+
+const viewRoles = () => {
+  const sql = `SELECT * FROM Roles`;
+  db.query(sql, (err, rows) => {
+    if (err) {
+      throw err;
+    }
+    console.log("\n");
+    console.table(rows);
+    return viewOptions();
+  });
+};
+
+const addDepartment = () => {
+  return inquirer.prompt([
+    {
+      type: "Insert",
+      name: "Name",
+      message: "What is the name of this department?",
+      validate: nameInsert => {
+        if (nameInsert) {
+          return true;
+        } else {
+          console.log("Please enter a department name");
+          return false;
+        };
+      }
+    }
+  ])
+  .then(answer => {
+    const sql = `INSERT INTO departments (name)
+      VALUES (?)`;
+    const params = answer.name;
+    db.query(sql, params, (err) => {
+      if (err) {
+        throw err;
+      }
+      console.log("Department added");
+      return viewDepartments();
+    });
+  });
+};
+
+
+const addRole = () => {
+  return inquirer.prompt([
+    {
+      type: "Insert",
+      name: "title",
+      message: "What is the name of this role?",
+      validate: nameInsert => {
+        if (nameInsert) {
+          return true;
+        } else {
+          console.log("Please enter a role name");
+          return false;
+        };
+      }
+    },
+    {
+      type: "Insert",
+      name: "salary",
+      message: "What is the salary for this role?",
+      validate: salaryInsert => {
+        if (isNaN(salaryInsert)) {
+          console.log("Please enter a salary");
+          return false;
+        } else {
+          return true;
+        };
+      }
+    }
+  ])
+  .then (answer => {
+    const params = [answer.title, answer.salary];
+    const sql = `SELECT * FROM departments`;
+    db.query(sql, (err, rows) => {
+      if (err) {
+        throw err;
+      }
+      const departments = rows.map(({name, id}) => ({name: name, value: id}));
+      inquirer.prompt([
+        {
+          type: "list",
+          name: "department",
+          message: "What department does this role belong to?",
+          choices: departments
+        }
+      ])
+      .then(departmentAnswer => {
+        const department = departmentAnswer.department;
+        params.push(department);
+        const sql = `INSERT INTO roles (title, salary, department_id)
+          VALUES (?, ?, ?)`;
+        db.query(sql, params, (err) => {
+          if (err) {
+            throw err;
+          }
+          console.log("Role added");
+          return viewRoles();
+        });
+      });
+    });
+  });
+};
+
+const addEmployee = () => {
+  return inquirer.prompt([
+    {
+      type: "Insert",
+      name: "firstName",
+      message: "What is the employee's first name?",
+      validate: nameInsert => {
+        if (nameInsert) {
+          return true;
+        } else {
+          console.log("Please enter a name");
+          return false;
+        };
+      }
+    },
+    {
+      type: "Insert",
+      name: "lastName",
+      message: "What is the employee's last name?",
+      validate: nameInsert => {
+        if (nameInsert) {
+          return true;
+        } else {
+          console.log("Please enter a name");
+          return false;
+        };
+      }
+    }
+  ])
+  .then (answer => {
+    const params = [answer.firstName, answer.lastName];
+    const sql = `SELECT * FROM roles`;
+    db.query(sql, (err, rows) => {
+      if (err) {
+        throw err;
+      }
+      const roles = rows.map(({title, id}) => ({name: title, value: id}));
+      inquirer.prompt([
+        {
+          type: "list",
+          name: "role",
+          message: "What is the role of this employee?",
+          choices: roles
+        }
+      ])
+      .then(roleAnswer => {
+        const role = roleAnswer.role;
+        params.push(role);
+        const sql = `SELECT * FROM employees`;
+        db.query(sql, (err, rows) => {
+          if (err) {
+            throw err;
+          }
+          const managers = rows.map(({first_name, last_name, id}) => ({name: `${first_name} ${last_name}`, value: id}));
+          managers.push({name: "No manager", value: null});
+          inquirer.prompt([
+            {
+              type: "list",
+              name: "manager",
+              message: "Who is this employee's manager?",
+              choices: managers
+            }
+          ])
+          .then(managerAnswer => {
+            const manager = managerAnswer.manager;
+            params.push(manager);
+            const sql = `INSERT INTO employees (first_name, last_name, role_id, manager_id)
+              VALUES (?, ?, ?, ?)`;
+            db.query(sql, params, (err) => {
+              if (err) {
+                throw err;
+              }
+              console.log("Employee added");
+              return viewEmployees();
+            });
+          });
+        });
+      });
+    });
+  });
+};
+

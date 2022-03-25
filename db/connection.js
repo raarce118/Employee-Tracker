@@ -7,7 +7,7 @@ const db = mysql.createConnection(
       user: 'root',
       // Your MySQL password
       password: 'N0vember8!',
-      database: 'boss'
+      database: 'business'
     });
-    console.log(chalk.blue.bold("==Connected to boss Database=="));
+    console.log(chalk.blue.bold("==Connected to business Database=="));
     module.exports = db;
