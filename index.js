@@ -1,4 +1,4 @@
-//const mysql = require("mysql2");
+const mysql = require("mysql2");
 const inquirer = require("inquirer");
 const cTable = require("console.table");
 const chalk = require("chalk");
@@ -64,7 +64,7 @@ async function addDepartment() {
   await sql.addDepartment(department);
 
   viewOptions();
-}
+};
 
 async function addRole() {
   const role = await inquirer.prompt([

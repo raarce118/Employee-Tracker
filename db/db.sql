@@ -1,3 +1,3 @@
-DROP DATABASE IF EXISTS boss;
-CREATE DATABASE boss;
-USE boss;
+DROP DATABASE IF EXISTS business;
+CREATE DATABASE business;
+USE business;
