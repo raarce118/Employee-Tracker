@@ -94,7 +94,7 @@ const addDepartment = () => {
   return inquirer.prompt([
     {
       type: "Insert",
-      name: "Name",
+      name: "name",
       message: "What is the name of this department?",
       validate: nameInsert => {
         if (nameInsert) {

@@ -25,7 +25,7 @@ class DBConnection {
     const param = [data.name];
     return this.db
       .promise()
-      .query("INSERT INTO department (name) VALUES(?)", param);
+      .query("INSERT INTO departments (name) VALUES (?)", param);
   }
 
   addRole(data) {
